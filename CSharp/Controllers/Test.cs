@@ -17,5 +17,20 @@ namespace CSharp.Controllers
 		{
 			return "Success!";
 		}
+		
+
+		//What we would like to see from this exercise:
+		//	Create order endpoint
+		//	List all orders by customer endpoint
+		//	Update order endpoint
+		//	Cancel order endpoint
+		//	Tests to prove your code works as expected
+
+
+
+
+
+
+
 	}
 }
