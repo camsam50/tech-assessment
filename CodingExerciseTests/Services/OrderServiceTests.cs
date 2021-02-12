@@ -1,4 +1,5 @@
-﻿using CodingExercise.DataAccess;
+﻿using CodingExercise.Services;
+using CodingExercise.DataAccess;
 using CodingExercise.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,14 +25,14 @@ namespace CodingExercise.Services.Tests
 
         private bool IsTheSame(Order order1, Order order2)
         {
-            if 
+            if
                 (
                 order1.OrderId == order2.OrderId &&
                 order1.CustomerId == order2.CustomerId &&
                 order1.OrderDescription == order2.OrderDescription &&
                 order1.Cost == order2.Cost
                 )
-                { return true; }
+            { return true; }
             else
             { return false; }
         }
@@ -48,9 +49,9 @@ namespace CodingExercise.Services.Tests
                 OrderDescription = "Some order",
                 Cost = 1
             };
-            
+
             using var context = new OrderContext(GetOptions(nameof(GetCustomerOrdersTest)));
-            
+
             context.Orders.Add(testOrder);
 
             await context.SaveChangesAsync();
@@ -145,6 +146,30 @@ namespace CodingExercise.Services.Tests
 
             //ASSSERT
             Assert.IsTrue(foundOrder is null); //Was unable to retrieve the order
+        }
+
+        [TestMethod()]
+        public async Task CreateOrderTest()
+        {
+            //ARRANGE
+            var testOrder = new Order
+            {
+                OrderId = 1,
+                CustomerId = 1,
+                OrderDescription = "Some order",
+                Cost = 1
+            };
+
+            using var context = new OrderContext(GetOptions(nameof(CreateOrderTest)));
+
+            var service = new OrderService(context);
+
+            //ACT
+            await service.CreateOrder(testOrder);
+            Order foundOrder = await context.Orders.FindAsync(1);
+
+            //ASSSERT
+            Assert.IsTrue(foundOrder is not null); //Was unable to retrieve the order
         }
     }
 }

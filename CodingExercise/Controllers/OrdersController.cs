@@ -48,6 +48,13 @@ namespace CodingExercise.Controllers
             return orders.ToList();
         }
 
+        // PUT: api/Orders
+        [HttpPut]
+        public async Task<ActionResult<Order>> CreateOrder(Order order)
+        {
+            await _orderService.CreateOrder(order);
+            return CreatedAtAction(nameof(GetOrder), new { id = order.OrderId }, order);
+        }
 
         // POST: api/Orders
         [HttpPost]
